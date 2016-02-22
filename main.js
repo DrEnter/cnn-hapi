@@ -106,7 +106,6 @@ module.exports = function (options) {
 
     if (options.metrics) {
         options.metrics.provider.init({app: name, flushEvery: options.metrics.options.flushEvery});
-        
     } else {
         require('cnn-metrics').init({app: name, flushEvery: 6 * 1000});
     }
