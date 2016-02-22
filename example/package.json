@@ -5,6 +5,7 @@
   "main": "app.js",
   "license": "MIT",
   "dependencies": {
-    "cnn-metrics": "^0.3.2"
+    "cnn-metrics": "^0.3.3",
+    "debug": "2.2.0"
   }
 }
