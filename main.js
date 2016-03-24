@@ -76,23 +76,25 @@ module.exports = function (options) {
     let packageJson = {},
         metricOptions = {flushEvery: 6 * 1000},
         defaults = {
+            healthChecks: [],
+            maxAge: 'max-age=60',
             port: 3000,
             withFlags: true,
             withSwagger: false,
             withHandlebars: true,
             metrics: {provider: require('cnn-metrics'), options: metricOptions},
             withBackendAuthentication: true,
-            healthChecks: []
+            surrogateCacheControl: 'max-age=360, stale-while-revalidate=60, stale-if-error=86400'
         },
-        port = process.env.PORT || options.port,
+        port = process.env.PORT || options.port || defaults.port,
         environment  = process.env.NODE_ENV || process.env.ENVIRONMENT || '',
         server = new hapi.Server(),
         name = options.name,
         description = '',
         directory = options.directory || process.cwd(),
         actualAppStart,
-        cacheControlHeader = process.env.CACHE_CONTROL || options.maxAge || 'max-age=60', // Default cache time is 60 seconds
-        surrogateControlHeader = process.env.SURROGATE_CACHE_CONTROL || options.surrogateCacheControl || 'max-age=360, stale-while-revalidate=60, stale-if-error=86400',
+        cacheControlHeader = process.env.CACHE_CONTROL || options.maxAge || defaults.maxAge,
+        surrogateControlHeader = process.env.SURROGATE_CACHE_CONTROL || options.surrogateCacheControl || defaults.surrogateCacheControl,
         cacheHeaders = {
             cacheControlHeader: cacheControlHeader,
             surrogateCacheControl: surrogateControlHeader
